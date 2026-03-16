@@ -13,6 +13,33 @@ This repository provides a **secure email automation stack** that can:
 
 ---
 
+## Quickstart (2 minutes)
+
+```bash
+git clone https://github.com/59v24jr6gy-coder/secure-mail-automation-skill.git
+cd secure-mail-automation-skill
+cp .env.example .env
+# edit .env with your values (MAIL_PUSH_TOKEN, GCP_PROJECT_ID, PUBSUB_SUBSCRIPTION_NAME, ASSISTANT_EMAIL)
+bash install.sh
+bash scripts/smoke-test.sh
+```
+
+Then run one manual test:
+
+```bash
+python3 secure-mail-automation/scripts/mail_auto_reply_v1.py
+```
+
+For push mode:
+
+```bash
+set -a; source .env; set +a
+bash secure-mail-automation/scripts/start_mail_push_stack.sh
+bash secure-mail-automation/scripts/status_mail_push_stack.sh
+```
+
+---
+
 ## What this skill does
 
 ### 1) Secure auto-reply pipeline
