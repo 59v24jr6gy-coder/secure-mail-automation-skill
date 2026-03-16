@@ -1,0 +1,35 @@
+{
+  "enabled": true,
+  "timezone": "Europe/Berlin",
+  "account": "assistant@example.com",
+  "main_account": "owner@example.com",
+  "keyring_password_file": "/data/.config/gogcli/.keyring_pass",
+  "query": "in:inbox newer_than:7d",
+  "max_fetch": 20,
+  "office_hours": {
+    "enabled": true,
+    "start_hour": 8,
+    "end_hour": 20
+  },
+  "limits": {
+    "per_sender_per_day": 3,
+    "per_thread": 2,
+    "global_per_day": 30,
+    "cooldown_minutes_same_sender": 15
+  },
+  "policy": {
+    "allow_cc_as_direct": true,
+    "block_no_reply": true,
+    "block_forwarded": true,
+    "block_from_main_account": true,
+    "block_on_prompt_injection": true,
+    "block_on_suspicious_url": true,
+    "block_on_attachments": true
+  },
+  "reply": {
+    "normal_auto_reply_template": "Hi,\\n\\nvielen Dank für deine Nachricht. Ich habe sie erhalten und melde mich so schnell wie möglich mit einer hilfreichen Antwort.\\n\\nViele Grüße\\nNeo",
+    "fallback_reply_template": "Hi,\\n\\ndanke für deine Nachricht. Ich habe sie erhalten. Für diese Anfrage ist eine manuelle Prüfung nötig.\\n\\nViele Grüße\\nNeo"
+  },
+  "state_file": "data/mail-automation/state.json",
+  "log_file": "logs/mail-automation/audit.jsonl"
+}
