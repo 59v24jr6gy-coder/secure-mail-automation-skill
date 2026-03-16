@@ -108,6 +108,21 @@ Use the included installer:
 bash install.sh
 ```
 
+Environment setup (recommended):
+
+```bash
+cp .env.example .env
+# edit .env with your values
+```
+
+You can export variables before starting the push stack:
+
+```bash
+set -a
+source .env
+set +a
+```
+
 What it does:
 
 1. Creates target skill directory in OpenClaw workspace
@@ -190,6 +205,30 @@ Default paths (configurable):
 These files are required for deduplication and rate-limit enforcement.
 
 ---
+
+## Threat model and limitations
+
+### In scope
+- Prompt-injection text patterns in inbound emails
+- Suspicious URL patterns (including SSRF/exfil indicators)
+- Over-reply loops and token burn via sender/thread/global limits
+- Unsafe auto-reply contexts (forwarded/no-reply/non-directly-addressed mail)
+
+### Out of scope (v1)
+- Full malware scanning/sandbox detonation of attachments
+- Full anti-spoofing pipeline beyond basic sender/header policy checks
+- Enterprise DLP/IR workflows and SIEM-native integrations
+
+### Operational limits
+- This is a **policy-and-guardrail layer**, not a complete mail security gateway.
+- Keep conservative defaults for unknown senders and attachment-heavy workflows.
+
+## Security files in this repo
+
+- `SECURITY.md` — vulnerability reporting and security operations guidance
+- `LICENSE` — MIT license
+- `.env.example` — placeholder-based environment configuration
+- `scripts/smoke-test.sh` — preflight validation of dependencies and scripts
 
 ## Notes
 
