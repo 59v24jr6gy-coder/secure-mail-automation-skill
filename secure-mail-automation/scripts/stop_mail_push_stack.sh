@@ -24,7 +24,7 @@ for f in cloudflared.pid watch.pid hook.pid; do
   stop_pid_file "$PID_DIR/$f"
 done
 pkill -f '/data/.openclaw/workspace/scripts/gmail_push_hook.py' 2>/dev/null || true
-pkill -f 'gog gmail settings watch serve --account david.uhlig.assistent.neo@gmail.com' 2>/dev/null || true
+pkill -f 'gog gmail settings watch serve --account' 2>/dev/null || true
 pkill -f 'cloudflared tunnel --url http://127.0.0.1:8788' 2>/dev/null || true
 
 echo "stopped"

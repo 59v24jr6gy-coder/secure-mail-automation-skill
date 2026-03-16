@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PROJECT_ID="project-7b50ef8a-888a-4ddc-af5"
-SUB_NAME="gog-gmail-watch-push"
-TOKEN="hooks_Y6Wt6eDRDN6H70LmGUIKVo4xkPmQ8eIB"
+PROJECT_ID="${GCP_PROJECT_ID:-your-gcp-project-id}"
+SUB_NAME="${PUBSUB_SUBSCRIPTION_NAME:-gmail-watch-push}"
+TOKEN="${MAIL_PUSH_TOKEN:-CHANGE_ME_MAIL_PUSH_TOKEN}"
 LOG_FILE="/data/.openclaw/workspace/logs/mail-automation/cloudflared.log"
 URL_FILE="/data/.openclaw/workspace/data/mail-automation/tunnel-url.txt"
 

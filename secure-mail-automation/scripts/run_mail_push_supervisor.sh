@@ -8,9 +8,11 @@ PID_DIR="$DATA_DIR/pids"
 mkdir -p "$LOG_DIR" "$DATA_DIR" "$PID_DIR"
 
 SUP_LOG="$LOG_DIR/supervisor.log"
-TOKEN="hooks_Y6Wt6eDRDN6H70LmGUIKVo4xkPmQ8eIB"
-PROJECT_ID="project-7b50ef8a-888a-4ddc-af5"
-SUB_NAME="gog-gmail-watch-push"
+TOKEN="${MAIL_PUSH_TOKEN:-CHANGE_ME_MAIL_PUSH_TOKEN}"
+PROJECT_ID="${GCP_PROJECT_ID:-your-gcp-project-id}"
+SUB_NAME="${PUBSUB_SUBSCRIPTION_NAME:-gmail-watch-push}"
+ASSISTANT_EMAIL="${ASSISTANT_EMAIL:-assistant@example.com}"
+GOG_KEYRING_PASSWORD_FILE="${GOG_KEYRING_PASSWORD_FILE:-$HOME/.config/gogcli/.keyring_pass}"
 
 CLOUDFLARED_BIN="/home/linuxbrew/.linuxbrew/bin/cloudflared"
 GOG_BIN="/home/linuxbrew/.linuxbrew/bin/gog"
@@ -40,7 +42,7 @@ start_hook() {
 }
 
 start_watch() {
-  nohup bash -lc "export GOG_KEYRING_PASSWORD=\"\$(cat /data/.config/gogcli/.keyring_pass)\"; exec $GOG_BIN gmail settings watch serve --account david.uhlig.assistent.neo@gmail.com --bind 127.0.0.1 --port 8788 --path /gmail-pubsub --token $TOKEN --hook-url http://127.0.0.1:8790/hook --fetch-delay 2s --save-hook" >> "$LOG_DIR/watch-serve.out.log" 2>&1 &
+  nohup bash -lc "export GOG_KEYRING_PASSWORD=\"\$(cat \"$GOG_KEYRING_PASSWORD_FILE\")\"; exec $GOG_BIN gmail settings watch serve --account $ASSISTANT_EMAIL --bind 127.0.0.1 --port 8788 --path /gmail-pubsub --token $TOKEN --hook-url http://127.0.0.1:8790/hook --fetch-delay 2s --save-hook" >> "$LOG_DIR/watch-serve.out.log" 2>&1 &
   echo $! > "$watch_pid_file"
   log "watch started pid=$(cat "$watch_pid_file")"
 }
@@ -93,7 +95,7 @@ cleanup_children() {
   stop_pid_file "$watch_pid_file"
   stop_pid_file "$cf_pid_file"
   pkill -f '/data/.openclaw/workspace/scripts/gmail_push_hook.py' 2>/dev/null || true
-  pkill -f 'gog gmail settings watch serve --account david.uhlig.assistent.neo@gmail.com' 2>/dev/null || true
+  pkill -f 'gog gmail settings watch serve --account' 2>/dev/null || true
   pkill -f 'cloudflared tunnel --url http://127.0.0.1:8788' 2>/dev/null || true
 }
 
